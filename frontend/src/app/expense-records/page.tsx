@@ -9,7 +9,7 @@ export default function ExpenseRecords() {
   const [expenseRecords, setExpenseRecords] = useState<ExpenseRecord[]>([]);
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
   const [openDialog, setOpenDialog] = useState(false);
-  const [currentRecord, setCurrentRecord] = useState<ExpenseRecord>({ note: '', quantity: 1, total_price: 0, paymentMethod: 0 });
+  const [currentRecord, setCurrentRecord] = useState<ExpenseRecord>({ note: '', quantity: 1, total_price: 0, paymentMethod: 0, expense_date: new Date() });
 
   useEffect(() => {
     fetchExpenseRecords();
@@ -26,7 +26,7 @@ export default function ExpenseRecords() {
     setPaymentMethods(methods);
   };
 
-  const handleOpen = (record: ExpenseRecord = { note: '', quantity: 1, total_price: 0, paymentMethod: 0 }) => {
+  const handleOpen = (record: ExpenseRecord = { note: '', quantity: 1, total_price: 0, paymentMethod: 0, expense_date: new Date() }) => {
     setCurrentRecord(record);
     setOpenDialog(true);
   };
@@ -50,6 +50,17 @@ export default function ExpenseRecords() {
     fetchExpenseRecords();
   };
 
+  const formatDate = (date: Date | string): string => {
+    if (typeof date === 'string') {
+      return date.split('T')[0];
+    }
+    return date.toISOString().split('T')[0];
+  };
+
+  const convertDate = (date: string): Date => {
+    return new Date(date);
+  };
+
   return (
     <>
       <Typography variant="h4" gutterBottom>Expense Records</Typography>
@@ -59,7 +70,7 @@ export default function ExpenseRecords() {
           <ListItem key={record.id}>
             <ListItemText 
               primary={record.note} 
-              secondary={`Quantity: ${record.quantity}, Total: $${record.total_price}`} 
+              secondary={`Quantity: ${record.quantity}, Total: $${record.total_price}, Date: ${new Date(record.expense_date).toLocaleDateString()}`} 
             />
             <Button onClick={() => handleOpen(record)}>Edit</Button>
             <Button onClick={() => record.id && handleDelete(record.id)}>Delete</Button>
@@ -103,6 +114,17 @@ export default function ExpenseRecords() {
               <MenuItem key={method.id} value={method.id}>{method.name}</MenuItem>
             ))}
           </Select>
+          <TextField
+            margin="dense"
+            label="Expense Date"
+            type="date"
+            fullWidth
+            InputLabelProps={{
+              shrink: true,
+            }}
+            value={formatDate(currentRecord.expense_date)}
+            onChange={(e) => setCurrentRecord({ ...currentRecord, expense_date: convertDate(e.target.value) })}
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>

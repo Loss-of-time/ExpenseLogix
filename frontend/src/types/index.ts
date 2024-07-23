@@ -10,4 +10,5 @@ export interface ExpenseRecord {
   quantity: number;
   total_price: number;
   paymentMethod: number;
+  expense_date: Date;
 }

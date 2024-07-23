@@ -35,6 +35,9 @@ export default function RootLayout({
               <Link href="/expense-records" passHref style={{ color: 'white', textDecoration: 'none' }}>
                 Expense Records
               </Link>
+              <Link href="/calendar-page" passHref style={{ color: 'white', marginLeft: '20px', textDecoration: 'none' }}>
+                Calendar
+              </Link>
             </Toolbar>
           </AppBar>
           <Container>
