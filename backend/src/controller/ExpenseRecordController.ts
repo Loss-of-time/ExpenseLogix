@@ -30,4 +30,8 @@ export class ExpenseRecordController {
     async delete(id: number): Promise<void> {
         await this.repository.delete(id);
     }
+
+    async findBetweenDates(startDate: Date, endDate: Date): Promise<ExpenseRecord[] | undefined> {
+        return this.repository.findBetweenDates(startDate, endDate);
+    }
 }

@@ -1,11 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import ThemeProvider from './ThemeProvider';
 import { AppBar, Toolbar, Typography, Container } from '@mui/material';
 import Link from 'next/link';
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "ExpenseLogix Dashboard",
@@ -19,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body>
         <ThemeProvider>
           <AppBar position="static">
             <Toolbar>

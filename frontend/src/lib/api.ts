@@ -2,7 +2,7 @@ import axios from 'axios';
 import { PaymentMethod, ExpenseRecord } from '@/types';
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000', // 你的后端API地址
+  baseURL: 'http://localhost:4000', // 你的后端API地址
 });
 
 // PaymentMethod APIs
@@ -44,3 +44,13 @@ export const updateExpenseRecord = async (id: number, data: ExpenseRecord): Prom
 export const deleteExpenseRecord = async (id: number): Promise<void> => {
   await api.delete(`/expense-records/${id}`);
 };
+
+export const getExpenseRecordsBetweenDates = async (startDate: Date, endDate: Date): Promise<ExpenseRecord[]> => {
+  const response = await api.get('/expense-records/between-dates', {
+    params: {
+      startDate,
+      endDate,
+    },
+  });
+  return response.data;
+}

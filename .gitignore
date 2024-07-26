@@ -8,6 +8,8 @@ backend/ormconfig.json
 
 # dependencies
 */node_modules
+node_modules
+
 */.pnp
 .pnp.js
 .yarn/install-state.gz

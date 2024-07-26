@@ -10,7 +10,7 @@ const app = express();
 app.use(cors());  // 添加这行来启用 CORS
 app.use(bodyParser.json());
 
-
+const PORT : number = 4000;
 
 let paymentMethodController: PaymentMethodController;
 let expenseRecordController: ExpenseRecordController;
@@ -79,7 +79,15 @@ createConnection().then(connection => {
         res.sendStatus(204);
     });
 
-    app.listen(3000, () => {
-        console.log("Server started on port 3000");
+    app.get("/expense-records/between-dates", async (req, res) => {
+        const startDate = new Date(req.query.startDate as string);
+        const endDate = new Date(req.query.endDate as string);
+        const results = await expenseRecordController.findBetweenDates(startDate, endDate);
+        res.json(results);
+    });
+
+
+    app.listen(PORT, () => {
+        console.log(`Server started on port ${PORT}`);
     });
 }).catch(error => console.log("TypeORM connection error: ", error));
